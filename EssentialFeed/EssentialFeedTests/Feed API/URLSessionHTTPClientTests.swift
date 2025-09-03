@@ -19,6 +19,23 @@ class URLSessionHTTPClient {
     
 class URLSessionHTTPClientTests: XCTestCase {
     
+    func test_getFromURL_performsGETRequestWithURL() {
+        URLProtocolStub.startInterceptingRequests() 
+        let url = URL(string: "https://www.google.com")!
+        let expectation = expectation(description: "wait for request")
+        
+        URLProtocolStub.observeRequest { request in
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, "GET")
+            expectation.fulfill()
+        }
+        
+        URLSessionHTTPClient().get(from: url, completion: { _ in })
+        
+        wait(for: [expectation], timeout: 1)
+        URLProtocolStub.stopInterceptingRequests()
+    }
+    
     func test_getFromURL_failsOnRequestError() {
         URLProtocolStub.startInterceptingRequests()
         let url = URL(string: "https://www.google.com")!
@@ -49,11 +66,16 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     private class URLProtocolStub: URLProtocol  {
         private static var stub: Stub?
+        private static var requestObserver: ((URLRequest) -> Void)?
         
         private struct Stub {
             let data: Data?
             let response: URLResponse?
             let error: Error?
+        }
+        
+        static func observeRequest(observer: @escaping (URLRequest) -> Void) {
+            requestObserver = observer
         }
          
         static func stub(data: Data?, response: URLResponse?, error: Error?) {
@@ -63,6 +85,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         static func startInterceptingRequests() {
             URLProtocol.registerClass(URLProtocolStub.self)
             stub = nil
+            requestObserver = nil
         }
         
         static func stopInterceptingRequests() {
@@ -70,7 +93,8 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
         
         override class func canInit(with request: URLRequest) -> Bool {
-            true
+            requestObserver?(request)
+            return  true
         }
         
         override class func canonicalRequest(for request: URLRequest) -> URLRequest {
