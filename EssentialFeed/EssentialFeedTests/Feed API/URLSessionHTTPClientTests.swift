@@ -19,8 +19,17 @@ class URLSessionHTTPClient {
     
 class URLSessionHTTPClientTests: XCTestCase {
     
+    override class func setUp() {
+        super.setUp()
+        URLProtocolStub.startInterceptingRequests()
+    }
+    
+    override class func tearDown() {
+        super .tearDown()
+        URLProtocolStub.stopInterceptingRequests()
+    }
+    
     func test_getFromURL_performsGETRequestWithURL() {
-        URLProtocolStub.startInterceptingRequests() 
         let url = URL(string: "https://www.google.com")!
         let expectation = expectation(description: "wait for request")
         
@@ -33,11 +42,9 @@ class URLSessionHTTPClientTests: XCTestCase {
         URLSessionHTTPClient().get(from: url, completion: { _ in })
         
         wait(for: [expectation], timeout: 1)
-        URLProtocolStub.stopInterceptingRequests()
     }
     
     func test_getFromURL_failsOnRequestError() {
-        URLProtocolStub.startInterceptingRequests()
         let url = URL(string: "https://www.google.com")!
         let error = NSError(domain: "any error", code: 1)
         URLProtocolStub.stub(data: nil, response: nil, error: error)
@@ -59,7 +66,6 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
         
         wait(for: [expectation], timeout: 1)
-        URLProtocolStub.stopInterceptingRequests()
     }
     
     // MARK: - Helpers
@@ -84,17 +90,17 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         static func startInterceptingRequests() {
             URLProtocol.registerClass(URLProtocolStub.self)
-            stub = nil
-            requestObserver = nil
         }
         
         static func stopInterceptingRequests() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
+            stub = nil
+            requestObserver = nil
         }
         
         override class func canInit(with request: URLRequest) -> Bool {
             requestObserver?(request)
-            return  true
+            return true
         }
         
         override class func canonicalRequest(for request: URLRequest) -> URLRequest {
