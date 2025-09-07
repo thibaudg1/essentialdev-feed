@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "15D32142-A1F2-46C4-8115-EE074AAE8123",
+      "name" : "APIEndToEnd",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:EssentialFeed.xcodeproj",
+        "identifier" : "EADF32BD2E6DD1620047ACBE",
+        "name" : "EssentialFeedAPIEndToEndTests"
+      }
+    }
+  ],
+  "version" : 1
+}
