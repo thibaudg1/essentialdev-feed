@@ -20,9 +20,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v4
-
-    - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app
       
     - name: Xcode version
       run: /usr/bin/xcodebuild -version
