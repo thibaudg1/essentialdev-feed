@@ -20,7 +20,7 @@ final class EssentialFeedAPIEndToEndTests: XCTestCase {
             XCTFail("Expected succesful feed results, got \(error) instead")
             
         default:
-            XCTFail( "Expected succesful feed results, got no result instead")
+            XCTFail("Expected succesful feed results, got no result instead")
         }
     }
     
