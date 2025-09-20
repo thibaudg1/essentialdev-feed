@@ -23,8 +23,14 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let expectation = self.expectation(description: "wait for load to complete")
         
         var receivedError: Swift.Error?
-        sut.load { error in
-            receivedError = error
+        sut.load { result in
+            switch result {
+            case let .failure(error):
+                receivedError = error
+            default :
+                XCTFail("Expected failure, got \(result) instead")
+            }
+            
             expectation.fulfill()
         }
         
