@@ -21,7 +21,7 @@ class CodableFeedStore {
             self.id = image.id
             self.description = image.description
             self.location = image.location
-            self.url = image.image
+            self.url = image.url
         }
         
         var local: LocalFeedImage {
