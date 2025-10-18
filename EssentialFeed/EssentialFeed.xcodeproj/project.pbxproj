@@ -219,16 +219,32 @@
 			path = "Feed API";
 			sourceTree = "<group>";
 		};
+		EA6E9CC32EA3FCBF00F72532 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				EA6E9CC42EA3FCE900F72532 /* CoreData */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		EA6E9CC42EA3FCE900F72532 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				EA47A3C52EA3CE6900B07B71 /* CoreDataFeedStore.swift */,
+				EA47A3C72EA3D0BC00B07B71 /* FeedStore.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		EA775B712E79BF300007E4B5 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				EA6E9CC32EA3FCBF00F72532 /* Infrastructure */,
 				EA775B722E79BF400007E4B5 /* LocalFeedLoader.swift */,
 				EA775B742E79C0060007E4B5 /* FeedStore.swift */,
 				EA7225992E8933EF00BA426F /* CodableFeedStore.swift */,
-				EA47A3C52EA3CE6900B07B71 /* CoreDataFeedStore.swift */,
 				EADB67802E7E81960084EA4F /* LocalFeedImage.swift */,
 				EAEB30612E7EFB8700A71036 /* FeedCachePolicy.swift */,
-				EA47A3C72EA3D0BC00B07B71 /* FeedStore.xcdatamodeld */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
